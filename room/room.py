@@ -7,6 +7,7 @@ class Room:
         self.gates = [0, 0, 0, 0]
         self.width = width
         self.height = height
+        self.numofchars = [0, 0, 0, 0, 0, 0]
 
     def zoom(self, raw_image, width, height, isbig):
         if isbig:

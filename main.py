@@ -16,8 +16,13 @@ FPS = 60
 
 def main():
     M = Map()
+    turn = 9
+    my_font = pygame.font.SysFont(None, 30)
+
     imgPos = pygame.Rect(M.lobby.position, (0, 0))
     i = 10
+    turn_text = my_font.render(
+        'Turn of:{} Turn:{}'.format(M.people.id, turn), True, (255, 255, 255))
     while True:
         # 迭代整個事件迴圈，若有符合事件則對應處理
         for event in pygame.event.get():
@@ -31,6 +36,7 @@ def main():
                     rel = event.rel
                     imgPos.x += rel[0]
                     imgPos.y += rel[1]
+
             # TODO:zoom功能
 
             # if event.type == MOUSEWHEEL:
@@ -44,7 +50,8 @@ def main():
         M.window_surface.blit(M.lobby.image, imgPos)
         M.window_surface.blit(
             M.roomtypeA.image, (imgPos[0]-300, imgPos[1]-0))
-
+        M.window_surface.blit(M.people.image, imgPos)
+        M.window_surface.blit(turn_text, (10, 0))
         pygame.display.flip()
 
 
