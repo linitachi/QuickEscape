@@ -26,13 +26,11 @@ def main():
     while True:
         # 迭代整個事件迴圈，若有符合事件則對應處理
         for event in pygame.event.get():
-            # 當使用者結束視窗，程式也結束
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
             if event.type == MOUSEMOTION:
                 if event.buttons[0] == 1:
-                    # clicked and moving
                     rel = event.rel
                     imgPos.x += rel[0]
                     imgPos.y += rel[1]
@@ -49,8 +47,12 @@ def main():
         M.window_surface.fill(0)
         M.window_surface.blit(M.lobby.image, imgPos)
         M.window_surface.blit(
-            M.roomtypeA.image, (imgPos[0]-300, imgPos[1]-0))
+            M.roomtypeA.image, (imgPos[0] - 300, imgPos[1] - 0))
+
         M.window_surface.blit(M.people.image, imgPos)
+        M.window_surface.blit(
+            M.people2.image, (imgPos[0] + 50, imgPos[1]))
+
         M.window_surface.blit(turn_text, (10, 0))
         pygame.display.flip()
 

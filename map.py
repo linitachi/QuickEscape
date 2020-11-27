@@ -22,20 +22,16 @@ class Map:
 
         # 讀大廳圖片
         self.lobby = Lobby((350, 200), 150, 150)
-        self.window_surface.blit(self.lobby.image, self.lobby.position)
         self.lobby.numofchars = [1, 0, 0, 0, 0, 0]
 
         # 讀入RoomtypeA圖片
         self.roomtypeA = RoomtypeA(
             (self.lobby.position[0] - 300, self.lobby.position[1] - 0), 150, 150)
-        self.window_surface.blit(self.roomtypeA.image, self.roomtypeA.position)
 
         # 讀角色圖片
+        self.people = People("picture\\user.png", (350, 200), 30, 30, "Red")
 
-        self.people = People("picture\\user.png", (350, 200), 30, 30, "red")
-        self.window_surface.blit(self.people.image, self.people.position)
-
-        pygame.display.update()
+        self.people2 = People("picture\\user2.png", (400, 200), 30, 30, "Blue")
 
 
 if __name__ == '__main__':
