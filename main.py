@@ -23,7 +23,6 @@ def main():
     i = 0
 
     while True:
-        # 迭代整個事件迴圈，若有符合事件則對應處理
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
@@ -41,9 +40,29 @@ def main():
                             M.map_list[k].flip()
                         if k < 4:
                             try:
+                                __index = M.number_of_players[i].map_list_position.index(
+                                    1)
                                 if M.move_button[k].collidepoint(mouse_position):
-                                    if M.number_of_players[i].move(k):
+                                    try:
+                                        if k == 0:
+                                            __index -= 5
+                                            next = 1
+                                        elif k == 1:
+                                            __index += 5
+                                            next = 0
+                                        elif k == 2:
+                                            __index -= 1
+                                            next = 3
+                                        elif k == 3:
+                                            __index += 1
+                                            next = 2
+                                        if M.map_list[__index].visible == False:
+                                            M.map_list[__index].flip()
+                                        if M.map_list[__index].gates[next] == 1 and M.number_of_players[i].move(k):
+                                            print("我走囉")
+                                    except:
                                         pass
+
                             except:
                                 pass
                                 # pygame.event.post(pygame.event.Event(turn_over))
