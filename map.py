@@ -50,18 +50,22 @@ class Map:
         for i in range(number_of_players):
             self.number_of_players.append(Player(
                 "picture\\user%s.png" % str(i), (350, 200), 50, 50, "player%s" % str(i+1)))
-        # 讀角色圖片
-        # self.player = Player("picture\\user0.png", (350, 200), 50, 50, "Red")
-
-        # self.player2 = Player("picture\\user1.png", (425, 200), 50, 50, "Blue")
 
         self.generate_map()
+
         __picture = "picture\\stay.jpg"
         __raw_image = pygame.image.load(__picture).convert_alpha()
         self.stay_icon = pygame.transform.scale(
             __raw_image, (125, 125))
         self.stay_icon_rect = self.stay_icon.get_rect()
         self.stay_icon_rect.topleft = (1000 - 125, 700 - 125)
+
+        __picture = "picture\\rotate.jpg"
+        __raw_image = pygame.image.load(__picture).convert_alpha()
+        self.rotate_icon = pygame.transform.scale(
+            __raw_image, (125, 125))
+        self.rotate_icon_rect = self.rotate_icon.get_rect()
+        self.rotate_icon_rect.topleft = (1000 - 250, 700 - 250)
 
     def generate_map(self):
         # 大廳的位置 (350, 200)
@@ -157,7 +161,11 @@ class Map:
 
     def print_stay(self):
         self.window_surface.blit(
-            self.stay_icon, (1000-125, 700-125))
+            self.stay_icon, (1000 - 125, 700 - 125))
+
+    def print_rotate(self):
+        self.window_surface.blit(
+            self.rotate_icon, (1000 - 250, 700 - 250))
 
 
 if __name__ == '__main__':

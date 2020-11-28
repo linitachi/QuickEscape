@@ -30,6 +30,7 @@ class RoomtypeA(Room):
         self.image = pygame.transform.rotate(self.image, angle)
         angle = angle // 90
         self.rotate_state += angle
+        self.rotate_state %= 4
         if self.rotate_state == 0:
             self.gates = [1, 1, 1, 0]
         elif self.rotate_state == 1:

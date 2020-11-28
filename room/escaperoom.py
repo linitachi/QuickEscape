@@ -31,14 +31,16 @@ class EscapeRoom(Room):
         self.image = pygame.transform.rotate(self.image, angle)
         angle = angle // 90
         self.rotate_state += angle
-        # if self.rotate_state == 0:
-        #     self.gates = [1, 0, 0, 0]
-        # elif self.rotate_state == 1:
-        #     self.gates = [0, 0, 1, 0]
-        # elif self.rotate_state == 2:
-        #     self.gates = [0, 1, 0, 0]
-        # elif self.rotate_state == 3:
-        #     self.gates = [0, 0, 0, 1]
+        self.rotate_state %= 4
+
+        if self.rotate_state == 0:
+            self.gates = [1, 0, 0, 0]
+        elif self.rotate_state == 1:
+            self.gates = [0, 0, 1, 0]
+        elif self.rotate_state == 2:
+            self.gates = [0, 1, 0, 0]
+        elif self.rotate_state == 3:
+            self.gates = [0, 0, 0, 1]
 
     def init_save_player(self, players):
         try:

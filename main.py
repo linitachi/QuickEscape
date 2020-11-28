@@ -42,16 +42,17 @@ def main():
                             pygame.event.post(
                                 pygame.event.Event(turn_over))
                         for k in range(25):
-                            # if M.map_list[k].rect.collidepoint(mouse_position):
+                            if M.map_list[k].rect.collidepoint(mouse_position) and M.map_list[k].visible:
                                 # M.map_list[k].flip()
+                                M.map_list[k].rotate(90)
+                                # 旋轉模式
+                                M.print_rotate()
                             if k < 4:
                                 try:
                                     # 尋找player的房間index
                                     __index = M.number_of_players[i].map_list_position.index(
                                         1)
                                     if M.move_button[k].collidepoint(mouse_position):
-                                        pygame.event.post(
-                                            pygame.event.Event(turn_over))
                                         try:
                                             if k == 0:
                                                 __index -= 5
@@ -68,7 +69,8 @@ def main():
                                             if M.map_list[__index].visible == False:
                                                 M.map_list[__index].flip()
                                             if M.map_list[__index].gates[next] == 1 and M.number_of_players[i].move(k):
-                                                print("我走囉")
+                                                pygame.event.post(
+                                                    pygame.event.Event(turn_over))
                                         except:
                                             pass
                                 except:
@@ -85,7 +87,6 @@ def main():
                             else:
                                 M.map_list[M.escaoe_index].init_save_player(
                                     M.number_of_players[i])
-                        print(M.map_list[M.escaoe_index].save_player)
                         i = 0
 
                     __player_win = list(
@@ -113,7 +114,7 @@ def main():
                     M.print_player(imgPos, player)
 
                 turn_text = my_font.render(
-                    'Turn of:{} Turn:{}'.format(M.number_of_players[i].id, turn), True, (255, 255, 255))
+                    'Turn of:{} Turn:{} Rotate_Time:{}'.format(M.number_of_players[i].id, turn, M.number_of_players[i].rotate_times), True, (255, 255, 255))
                 M.window_surface.blit(turn_text, (10, 0))
                 pygame.display.flip()
         else:

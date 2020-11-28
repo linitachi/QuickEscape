@@ -9,6 +9,7 @@ class Player():
         self.id = id
         self.map_list_position = [0] * 25
         self.map_list_position[12] = 1
+        self.rotate_times = 2
 
     def move(self, direction):
         # 上0 下1 左2 右3
@@ -34,3 +35,9 @@ class Player():
             self.map_list_position[__index + 1] = 1
             return True
         return False
+
+    def rotate_room(self):
+        self.rotate_times -= 1
+
+    def init_rotate_times(self):
+        self.rotate_times = 2
