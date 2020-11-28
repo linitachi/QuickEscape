@@ -14,7 +14,7 @@ class Player():
         # 上0 下1 左2 右3
         __index = self.map_list_position.index(1)
         # 往上
-        if direction == 0 and __index > 5:
+        if direction == 0 and __index > 4:
             self.map_list_position[__index] = 0
             self.map_list_position[__index - 5] = 1
             return True

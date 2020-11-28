@@ -12,11 +12,12 @@ WHITE = (255, 255, 255)
 number_of_players = 2
 FPS = 60
 turn_over = USEREVENT+1
+game_over = USEREVENT+2
 
 
 def main():
-    M = Map()
-    turn = 9
+    M = Map(number_of_players)
+    turn = 1
     my_font = pygame.font.SysFont(None, 30)
 
     imgPos = pygame.Rect((350, 200), (0, 0))
@@ -36,13 +37,16 @@ def main():
                 mouse_position = pygame.mouse.get_pos()
                 if event.button == 1:
                     for k in range(25):
-                        if M.map_list[k].rect.collidepoint(mouse_position):
-                            M.map_list[k].flip()
+                        # if M.map_list[k].rect.collidepoint(mouse_position):
+                            # M.map_list[k].flip()
                         if k < 4:
                             try:
+                                # 尋找player的房間index
                                 __index = M.number_of_players[i].map_list_position.index(
                                     1)
                                 if M.move_button[k].collidepoint(mouse_position):
+                                    pygame.event.post(
+                                        pygame.event.Event(turn_over))
                                     try:
                                         if k == 0:
                                             __index -= 5
@@ -65,9 +69,16 @@ def main():
 
                             except:
                                 pass
-                                # pygame.event.post(pygame.event.Event(turn_over))
             if event.type == turn_over:
-                turn -= 1
+                i += 1
+                if i == number_of_players:
+                    turn -= 1
+                    i = 0
+                # TODO:遊戲結束的按鈕
+                if turn == 0:
+                    pygame.quit()
+                    sys.exit()
+                    pygame.event.post(pygame.event.Event(game_over))
             # TODO:zoom功能
             # if event.type == MOUSEWHEEL:
             #     if event.y == 1:

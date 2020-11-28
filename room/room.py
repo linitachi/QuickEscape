@@ -16,6 +16,7 @@ class Room:
             self.raw_image, (self.width, self.height))
         self.rect = self.image.get_rect()
         self.rect.topleft = (position[0], position[1])
+        self.rotate_state = 0
 
     def zoom(self, raw_image, width, height, isbig):
         if isbig:
@@ -31,3 +32,6 @@ class Room:
 
     def get_visible(self):
         return self.visible
+
+    def rotate(self, angle):
+        pass

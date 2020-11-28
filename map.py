@@ -6,6 +6,8 @@ import pygame
 from pygame.locals import Color, QUIT, MOUSEBUTTONDOWN, USEREVENT, USEREVENT
 from room.lobby import Lobby
 from room.roomtypeA import RoomtypeA
+from room.escaperoom import EscapeRoom
+
 from character.people import Player
 MAX_MAP_TYPE = 2
 imgPos = (350, 200)
@@ -33,7 +35,7 @@ POSITION = generate_position((350, 200))
 
 
 class Map:
-    def __init__(self):
+    def __init__(self, number_of_players):
         pygame.init()
         WINDOW_WIDTH = 1000
         WINDOW_HEIGHT = 700
@@ -44,10 +46,9 @@ class Map:
         self.window_surface.fill(BLACK)
 
         self.number_of_players = []
-        for i in range(6):
+        for i in range(number_of_players):
             self.number_of_players.append(Player(
                 "picture\\user%s.png" % str(i), (350, 200), 50, 50, "player%s" % str(i+1)))
-
         # 讀角色圖片
         # self.player = Player("picture\\user0.png", (350, 200), 50, 50, "Red")
 
@@ -69,12 +70,13 @@ class Map:
             else:
                 self.map_list.append(
                     RoomtypeA(POSITION[i], 200, 200))
-        # TODO:出口
-        # __escape = random.randint(0, 24)
-        # while __escape == 7 or __escape == 11 or __escape == 13 or __escape == 12:
-        #     __escape = random.randint(0, 24)
-        # self.map_list[__escape] = RoomtypeA(
-        #     (350+Separated_x, 200+Separated_y), 200, 200)
+
+        __escape = random.randint(0, 24)
+        while __escape == 7 or __escape == 11 or __escape == 13 or __escape == 12 or __escape == 17:
+            __escape = random.randint(0, 24)
+        self.map_list[__escape] = EscapeRoom(
+            POSITION[__escape], 200, 200)
+        self.map_list[__escape].init_save_player(self.number_of_players)
 
     def print_map(self, imgPos):
         POSITION = generate_position(imgPos)
@@ -95,7 +97,7 @@ class Map:
             "picture\\next-button.png").convert_alpha()
         __image = pygame.transform.scale(__raw_image, (50, 50))
 
-        self.move_button = [0]*4
+        self.move_button = [0] * 4
         # 上
         if self.map_list[__index].gates[0] == 1:
             __rotate_image = pygame.transform.rotate(__image, 90)
