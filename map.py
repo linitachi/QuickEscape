@@ -43,6 +43,7 @@ class Map:
         self.window_surface = pygame.display.set_mode(
             (WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.display.set_caption('QuickEscape!!')
+
         self.window_surface.fill(BLACK)
 
         self.number_of_players = []
@@ -55,6 +56,12 @@ class Map:
         # self.player2 = Player("picture\\user1.png", (425, 200), 50, 50, "Blue")
 
         self.generate_map()
+        __picture = "picture\\stay.jpg"
+        __raw_image = pygame.image.load(__picture).convert_alpha()
+        self.stay_icon = pygame.transform.scale(
+            __raw_image, (125, 125))
+        self.stay_icon_rect = self.stay_icon.get_rect()
+        self.stay_icon_rect.topleft = (1000 - 125, 700 - 125)
 
     def generate_map(self):
         # 大廳的位置 (350, 200)
@@ -71,12 +78,14 @@ class Map:
                 self.map_list.append(
                     RoomtypeA(POSITION[i], 200, 200))
 
-        __escape = random.randint(0, 24)
-        while __escape == 7 or __escape == 11 or __escape == 13 or __escape == 12 or __escape == 17:
-            __escape = random.randint(0, 24)
-        self.map_list[__escape] = EscapeRoom(
-            POSITION[__escape], 200, 200)
-        self.map_list[__escape].init_save_player(self.number_of_players)
+        # self.escaoe_index = random.randint(0, 24)
+        # while self.escaoe_index == 7 or self.escaoe_index == 11 or self.escaoe_index == 13 or self.escaoe_index == 12 or __escape == 17:
+        #     self.escaoe_index = random.randint(0, 24)
+        self.escaoe_index = 17
+        self.map_list[self.escaoe_index] = EscapeRoom(
+            POSITION[self.escaoe_index], 200, 200)
+        self.map_list[self.escaoe_index].init_save_player(
+            self.number_of_players)
 
     def print_map(self, imgPos):
         POSITION = generate_position(imgPos)
@@ -145,6 +154,10 @@ class Map:
         else:
             self.window_surface.blit(
                 self.number_of_players[index_of_player].image, (imgPos[0]+remainder+75*(index_of_player-3), imgPos[1]+150+quotient))
+
+    def print_stay(self):
+        self.window_surface.blit(
+            self.stay_icon, (1000-125, 700-125))
 
 
 if __name__ == '__main__':
