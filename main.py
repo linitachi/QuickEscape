@@ -39,8 +39,14 @@ def main():
                     for k in range(25):
                         if M.map_list[k].rect.collidepoint(mouse_position):
                             M.map_list[k].flip()
-
-                # pygame.event.post(pygame.event.Event(turn_over))
+                        if k < 4:
+                            try:
+                                if M.move_button[k].collidepoint(mouse_position):
+                                    if M.number_of_players[i].move(k):
+                                        pass
+                            except:
+                                pass
+                                # pygame.event.post(pygame.event.Event(turn_over))
             if event.type == turn_over:
                 turn -= 1
             # TODO:zoom功能
@@ -52,7 +58,6 @@ def main():
             #         M.lobby.image = M.lobby.zoom(M.lobby.raw_image,
             #                                      i, i, 0)
         M.window_surface.fill(0)
-
         M.print_map(imgPos)
         M.print_move_icon(M.number_of_players[i], imgPos)
         for player in range(number_of_players):
