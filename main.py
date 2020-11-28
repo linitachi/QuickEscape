@@ -45,9 +45,8 @@ def main():
             #         M.lobby.image = M.lobby.zoom(M.lobby.raw_image,
             #                                      i, i, 0)
         M.window_surface.fill(0)
-        M.window_surface.blit(M.lobby.image, imgPos)
-        M.window_surface.blit(
-            M.roomtypeA.image, (imgPos[0] - 300, imgPos[1] - 0))
+
+        M.print_map(imgPos)
 
         M.window_surface.blit(M.people.image, imgPos)
         M.window_surface.blit(

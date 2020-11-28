@@ -8,6 +8,8 @@ class Room:
         self.width = width
         self.height = height
         self.numofchars = [0, 0, 0, 0, 0, 0]
+        self.visible = False
+        self.back_picture = "picture\\back.jpg"
 
     def zoom(self, raw_image, width, height, isbig):
         if isbig:
@@ -17,3 +19,6 @@ class Room:
             self.height -= height
             self.width -= width
         return pygame.transform.scale(raw_image, (self.width, self.height))
+
+    def get_visible(self):
+        return self.visible
