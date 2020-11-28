@@ -19,11 +19,12 @@ def main():
     win_message = ""
     M = Map(number_of_players)
     turn = 9
+    __rotate = False
     my_font = pygame.font.SysFont(None, 30)
 
     imgPos = pygame.Rect((350, 200), (0, 0))
     i = 0
-
+    __tem_rotate_state = []
     while True:
         if turn > 0:
             for event in pygame.event.get():
@@ -41,18 +42,48 @@ def main():
                         if M.stay_icon_rect.collidepoint(mouse_position):
                             pygame.event.post(
                                 pygame.event.Event(turn_over))
+                        # Click rotate_icon
+                        if M.rotate_icon_rect.collidepoint(mouse_position):
+                            __rotate = False
+                            __tem = 0
+                            __origin_times = M.number_of_players[i].rotate_times
+                            for k in range(25):
+                                if __tem_rotate_state[k] != M.map_list[k].rotate_state:
+                                    M.number_of_players[i].rotate_room()
+                                    __tem += 1
+                            # 檢查是否超過旋轉次數
+                            if M.number_of_players[i].rotate_times < 0:
+                                if __tem > 2 and __origin_times == 2:
+                                    M.number_of_players[i].init_rotate_times()
+                                elif __tem > 2 and __origin_times == 1:
+                                    M.number_of_players[i].rotate_times = 1
+                                else:
+                                    M.number_of_players[i].rotate_times = 0
+                                for k in range(25):
+                                    M.map_list[k].reset_room(
+                                        __tem_rotate_state[k])
+                            __tem_rotate_state = []
                         for k in range(25):
+                            # 已翻開的房間才可以旋轉 旋轉前先暫存狀態
+                            if len(__tem_rotate_state) < 25:
+                                __tem_rotate_state.append(
+                                    M.map_list[k].rotate_state)
                             if M.map_list[k].rect.collidepoint(mouse_position) and M.map_list[k].visible:
-                                # M.map_list[k].flip()
                                 M.map_list[k].rotate(90)
-                                # 旋轉模式
-                                M.print_rotate()
+                                __rotate = True
                             if k < 4:
                                 try:
                                     # 尋找player的房間index
                                     __index = M.number_of_players[i].map_list_position.index(
                                         1)
                                     if M.move_button[k].collidepoint(mouse_position):
+                                        # 行走之前 檢查是否違反旋轉規定
+                                        if M.number_of_players[i].rotate_times < 0:
+                                            for g in range(25):
+                                                M.map_list[g].reset_room(
+                                                    __tem_rotate_state[g])
+                                            M.number_of_players[i].rotate_times = 0
+                                            break
                                         try:
                                             if k == 0:
                                                 __index -= 5
@@ -68,9 +99,12 @@ def main():
                                                 next = 2
                                             if M.map_list[__index].visible == False:
                                                 M.map_list[__index].flip()
-                                            if M.map_list[__index].gates[next] == 1 and M.number_of_players[i].move(k):
                                                 pygame.event.post(
                                                     pygame.event.Event(turn_over))
+                                            if M.map_list[__index].gates[next] == 1 and M.number_of_players[i].move(k):
+                                                if not pygame.event.peek(turn_over):
+                                                    pygame.event.post(
+                                                        pygame.event.Event(turn_over))
                                         except:
                                             pass
                                 except:
@@ -81,6 +115,7 @@ def main():
                         turn -= 1
                         # 檢查是否有人在出口
                         for i in range(number_of_players):
+                            M.number_of_players[i].init_rotate_times()
                             if M.escaoe_index == M.number_of_players[i].map_list_position.index(1):
                                 M.map_list[M.escaoe_index].reduce_save_player(
                                     M.number_of_players[i].id)
@@ -110,6 +145,8 @@ def main():
                 M.print_map(imgPos)
                 M.print_stay()
                 M.print_move_icon(M.number_of_players[i], imgPos)
+                if __rotate:
+                    M.print_rotate()
                 for player in range(number_of_players):
                     M.print_player(imgPos, player)
 
@@ -119,13 +156,13 @@ def main():
                 pygame.display.flip()
         else:
             pygame.init()
-            M.window_surface.fill((255, 255, 255))
+            M.window_surface.fill((0, 0, 0))
             for event in pygame.event.get():
                 if event.type == QUIT:
                     pygame.quit()
                     sys.exit()
             turn_text = my_font.render(
-                win_message, True, (0, 0, 0))
+                win_message, True, (255, 255, 255))
             M.window_surface.blit(turn_text, (50, 50))
             pygame.display.flip()
 

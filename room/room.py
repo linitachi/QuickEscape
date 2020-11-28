@@ -35,3 +35,11 @@ class Room:
 
     def rotate(self, angle):
         pass
+
+    def reset_room(self, origin_state):
+        __angle = (origin_state - self.rotate_state) * 90
+        if origin_state - self.rotate_state == 3:
+            __angle = -90
+        elif origin_state - self.rotate_state == -3:
+            __angle = 90
+        self.rotate(__angle)

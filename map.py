@@ -65,7 +65,7 @@ class Map:
         self.rotate_icon = pygame.transform.scale(
             __raw_image, (125, 125))
         self.rotate_icon_rect = self.rotate_icon.get_rect()
-        self.rotate_icon_rect.topleft = (1000 - 250, 700 - 250)
+        self.rotate_icon_rect.topleft = (1000 - 250, 700 - 150)
 
     def generate_map(self):
         # 大廳的位置 (350, 200)
@@ -165,7 +165,7 @@ class Map:
 
     def print_rotate(self):
         self.window_surface.blit(
-            self.rotate_icon, (1000 - 250, 700 - 250))
+            self.rotate_icon, (1000 - 250, 700 - 150))
 
 
 if __name__ == '__main__':
