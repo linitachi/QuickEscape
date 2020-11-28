@@ -19,10 +19,10 @@ def main():
     turn = 9
     my_font = pygame.font.SysFont(None, 30)
 
-    imgPos = pygame.Rect(M.lobby.position, (0, 0))
+    imgPos = pygame.Rect((350, 200), (0, 0))
     i = 10
     turn_text = my_font.render(
-        'Turn of:{} Turn:{}'.format(M.people.id, turn), True, (255, 255, 255))
+        'Turn of:{} Turn:{}'.format(M.player.id, turn), True, (255, 255, 255))
     while True:
         # 迭代整個事件迴圈，若有符合事件則對應處理
         for event in pygame.event.get():
@@ -47,10 +47,10 @@ def main():
         M.window_surface.fill(0)
 
         M.print_map(imgPos)
-
-        M.window_surface.blit(M.people.image, imgPos)
+        M.print_move_icon(M.player, imgPos)
+        M.window_surface.blit(M.player.image, imgPos)
         M.window_surface.blit(
-            M.people2.image, (imgPos[0] + 50, imgPos[1]))
+            M.player2.image, (imgPos[0] + 75, imgPos[1]))
 
         M.window_surface.blit(turn_text, (10, 0))
         pygame.display.flip()

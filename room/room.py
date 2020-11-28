@@ -4,6 +4,7 @@ import pygame
 class Room:
     def __init__(self, position=(150, 150), width=250, height=250):
         # 代表房間的出口 1為可以走 0為不可走
+        # 上下左右
         self.gates = [0, 0, 0, 0]
         self.width = width
         self.height = height

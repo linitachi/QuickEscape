@@ -1,1 +1,1 @@
-from character.people import People
+from character.people import Player
