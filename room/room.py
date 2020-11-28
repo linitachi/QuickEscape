@@ -11,6 +11,11 @@ class Room:
         self.numofchars = [0, 0, 0, 0, 0, 0]
         self.visible = False
         self.back_picture = "picture\\back.jpg"
+        self.raw_image = pygame.image.load(self.back_picture).convert_alpha()
+        self.image = pygame.transform.scale(
+            self.raw_image, (self.width, self.height))
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (position[0], position[1])
 
     def zoom(self, raw_image, width, height, isbig):
         if isbig:
@@ -20,6 +25,9 @@ class Room:
             self.height -= height
             self.width -= width
         return pygame.transform.scale(raw_image, (self.width, self.height))
+
+    def flip(self):
+        pass
 
     def get_visible(self):
         return self.visible
