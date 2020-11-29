@@ -160,6 +160,9 @@ def main():
                 if event.type == QUIT:
                     pygame.quit()
                     sys.exit()
+
+            if win_message == "win":
+                win_message = "NoBody Runaway !!"
             turn_text = my_font.render(
                 win_message, True, (255, 255, 255))
             M.window_surface.blit(turn_text, (50, 50))

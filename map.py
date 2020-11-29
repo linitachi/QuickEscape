@@ -6,6 +6,7 @@ import pygame
 from pygame.locals import Color, QUIT, MOUSEBUTTONDOWN, USEREVENT, USEREVENT
 from room.lobby import Lobby
 from room.roomtypeA import RoomtypeA
+from room.roomtypeB import RoomtypeB
 from room.escaperoom import EscapeRoom
 
 from character.people import Player
@@ -53,7 +54,7 @@ class Map:
             self.number_of_players.append(Player(
                 "picture\\user%s.png" % str(i), (350, 200), 50, 50, "player%s" % str(i+1)))
 
-        roomtype_list = [RoomtypeA]
+        roomtype_list = [RoomtypeA, RoomtypeB]
         self.generate_map(roomtype_list)
 
         __picture = "picture\\stay.jpg"
