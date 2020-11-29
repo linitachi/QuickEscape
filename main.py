@@ -12,7 +12,8 @@ WHITE = (255, 255, 255)
 number_of_players = 2
 FPS = 60
 turn_over = USEREVENT+1
-game_over = USEREVENT+2
+game_over = USEREVENT + 2
+player_index = [i for i in range(number_of_players)]
 
 
 def main():
@@ -24,6 +25,7 @@ def main():
 
     imgPos = pygame.Rect((350, 200), (0, 0))
     i = 0
+    player_turn = random.sample(player_index, number_of_players)
     __tem_rotate_state = []
     while True:
         if turn > 0:
@@ -46,19 +48,23 @@ def main():
                         if M.rotate_icon_rect.collidepoint(mouse_position):
                             __rotate = False
                             __tem = 0
-                            __origin_times = M.number_of_players[i].rotate_times
+                            __origin_times = M.player_list[player_turn[i]
+                                                           ].rotate_times
                             for k in range(25):
                                 if __tem_rotate_state[k] != M.map_list[k].rotate_state:
-                                    M.number_of_players[i].rotate_room()
+                                    M.player_list[player_turn[i]].rotate_room()
                                     __tem += 1
                             # 檢查是否超過旋轉次數
-                            if M.number_of_players[i].rotate_times < 0:
+                            if M.player_list[player_turn[i]].rotate_times < 0:
                                 if __tem > 2 and __origin_times == 2:
-                                    M.number_of_players[i].init_rotate_times()
+                                    M.player_list[player_turn[i]
+                                                  ].init_rotate_times()
                                 elif __tem > 2 and __origin_times == 1:
-                                    M.number_of_players[i].rotate_times = 1
+                                    M.player_list[player_turn[i]
+                                                  ].rotate_times = 1
                                 else:
-                                    M.number_of_players[i].rotate_times = 0
+                                    M.player_list[player_turn[i]
+                                                  ].rotate_times = 0
                                 for k in range(25):
                                     M.map_list[k].reset_room(
                                         __tem_rotate_state[k])
@@ -75,7 +81,7 @@ def main():
                                 if __rotate == False:
                                     try:
                                         # 尋找player的房間index
-                                        __index = M.number_of_players[i].map_list_position.index(
+                                        __index = M.player_list[player_turn[i]].map_list_position.index(
                                             1)
                                         if M.move_button[k].collidepoint(mouse_position):
                                             try:
@@ -95,7 +101,7 @@ def main():
                                                     M.map_list[__index].flip()
                                                     pygame.event.post(
                                                         pygame.event.Event(turn_over))
-                                                if M.map_list[__index].gates[next] == 1 and M.number_of_players[i].move(k):
+                                                if M.map_list[__index].gates[next] == 1 and M.player_list[player_turn[i]].move(k):
                                                     if not pygame.event.peek(turn_over):
                                                         pygame.event.post(
                                                             pygame.event.Event(turn_over))
@@ -105,21 +111,28 @@ def main():
                                         pass
                 if event.type == turn_over:
                     i += 1
+                    # 跳過死掉的玩家 並把該玩家移出遊戲
+                    while i < number_of_players and M.player_list[player_turn[i]].Live == False:
+                        player_index.erase(player_index.index(player_turn[i]))
+                        i += 1
                     __tem_rotate_state = []
                     __rotate = False
                     if i == number_of_players:
                         turn -= 1
                         # 檢查是否有人在出口
                         for i in range(number_of_players):
-                            M.number_of_players[i].init_rotate_times()
-                            if M.escape_index == M.number_of_players[i].map_list_position.index(1):
+                            M.player_list[player_turn[i]].init_rotate_times()
+                            if M.escape_index == M.player_list[player_turn[i]].map_list_position.index(1):
                                 M.map_list[M.escape_index].reduce_save_player(
-                                    M.number_of_players[i].id)
+                                    M.player_list[player_turn[i]].id)
                             else:
                                 M.map_list[M.escape_index].init_save_player(
-                                    M.number_of_players[i])
-                        i = 0
+                                    M.player_list[player_turn[i]])
 
+                        i = 0
+                        player_turn = random.sample(
+                            player_index, number_of_players)
+                        print(player_turn)
                     __player_win = list(
                         M.map_list[M.escape_index].save_player.values())
                     for k in range(len(__player_win)):
@@ -144,13 +157,13 @@ def main():
                 if __rotate:
                     M.print_rotate()
                 else:
-                    M.print_move_icon(M.number_of_players[i], imgPos)
+                    M.print_move_icon(M.player_list[player_turn[i]], imgPos)
 
                 for player in range(number_of_players):
                     M.print_player(imgPos, player)
 
                 turn_text = my_font.render(
-                    'Turn of:{} Turn:{} Rotate_Time:{}'.format(M.number_of_players[i].id, turn, M.number_of_players[i].rotate_times), True, (255, 255, 255))
+                    'Turn of:{} Turn:{} Rotate_Time:{}'.format(M.player_list[player_turn[i]].id, turn, M.player_list[player_turn[i]].rotate_times), True, (255, 255, 255))
                 M.window_surface.blit(turn_text, (10, 0))
                 pygame.display.flip()
         else:

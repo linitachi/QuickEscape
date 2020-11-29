@@ -43,3 +43,6 @@ class Room:
         elif origin_state - self.rotate_state == -3:
             __angle = 90
         self.rotate(__angle)
+
+    def utility(self):
+        pass

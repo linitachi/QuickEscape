@@ -10,6 +10,7 @@ class Player():
         self.map_list_position = [0] * 25
         self.map_list_position[12] = 1
         self.rotate_times = 2
+        self.Live = True
 
     def move(self, direction):
         # 上0 下1 左2 右3

@@ -7,6 +7,8 @@ from pygame.locals import Color, QUIT, MOUSEBUTTONDOWN, USEREVENT, USEREVENT
 from room.lobby import Lobby
 from room.roomtypeA import RoomtypeA
 from room.roomtypeB import RoomtypeB
+from room.roomtypeC import RoomtypeC
+
 from room.escaperoom import EscapeRoom
 
 from character.people import Player
@@ -49,12 +51,12 @@ class Map:
 
         self.window_surface.fill(BLACK)
 
-        self.number_of_players = []
+        self.player_list = []
         for i in range(number_of_players):
-            self.number_of_players.append(Player(
+            self.player_list.append(Player(
                 "picture\\user%s.png" % str(i), (350, 200), 50, 50, "player%s" % str(i+1)))
 
-        roomtype_list = [RoomtypeA, RoomtypeB]
+        roomtype_list = [RoomtypeA, RoomtypeB, RoomtypeC]
         self.generate_map(roomtype_list)
 
         __picture = "picture\\stay.jpg"
@@ -92,7 +94,7 @@ class Map:
         self.map_list[self.escape_index] = EscapeRoom(
             POSITION[self.escape_index], 200, 200)
         self.map_list[self.escape_index].init_save_player(
-            self.number_of_players)
+            self.player_list)
 
     def print_map(self, imgPos):
         POSITION = generate_position(imgPos)
@@ -149,7 +151,7 @@ class Map:
                 __rotate_image, (imgPos[0] + remainder-150, imgPos[1] + quotient+150))
 
     def print_player(self, imgPos, index_of_player):
-        __index = self.number_of_players[index_of_player].map_list_position.index(
+        __index = self.player_list[index_of_player].map_list_position.index(
             1)
         quotient = __index // 5
         remainder = __index % 5
@@ -157,10 +159,10 @@ class Map:
         remainder = 300 * remainder - 600
         if index_of_player < 3:
             self.window_surface.blit(
-                self.number_of_players[index_of_player].image, (imgPos[0]+remainder+75*index_of_player, imgPos[1]+quotient))
+                self.player_list[index_of_player].image, (imgPos[0]+remainder+75*index_of_player, imgPos[1]+quotient))
         else:
             self.window_surface.blit(
-                self.number_of_players[index_of_player].image, (imgPos[0]+remainder+75*(index_of_player-3), imgPos[1]+150+quotient))
+                self.player_list[index_of_player].image, (imgPos[0]+remainder+75*(index_of_player-3), imgPos[1]+150+quotient))
 
     def print_stay(self):
         self.window_surface.blit(
