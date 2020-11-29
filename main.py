@@ -64,7 +64,7 @@ def main():
                                         __tem_rotate_state[k])
                             __tem_rotate_state = []
                         for k in range(25):
-                            # 已翻開的房間才可以旋轉 旋轉前先暫存狀態
+                            # 已翻開的房間才可以旋轉 旋轉前先暫存狀態 以一開始的狀態為主
                             if len(__tem_rotate_state) < 25:
                                 __tem_rotate_state.append(
                                     M.map_list[k].rotate_state)
@@ -72,45 +72,41 @@ def main():
                                 M.map_list[k].rotate(90)
                                 __rotate = True
                             if k < 4:
-                                try:
-                                    # 尋找player的房間index
-                                    __index = M.number_of_players[i].map_list_position.index(
-                                        1)
-                                    if M.move_button[k].collidepoint(mouse_position):
-                                        # 行走之前 檢查是否違反旋轉規定
-                                        if M.number_of_players[i].rotate_times < 0:
-                                            for g in range(25):
-                                                M.map_list[g].reset_room(
-                                                    __tem_rotate_state[g])
-                                            M.number_of_players[i].rotate_times = 0
-                                            break
-                                        try:
-                                            if k == 0:
-                                                __index -= 5
-                                                next = 1
-                                            elif k == 1:
-                                                __index += 5
-                                                next = 0
-                                            elif k == 2:
-                                                __index -= 1
-                                                next = 3
-                                            elif k == 3:
-                                                __index += 1
-                                                next = 2
-                                            if M.map_list[__index].visible == False:
-                                                M.map_list[__index].flip()
-                                                pygame.event.post(
-                                                    pygame.event.Event(turn_over))
-                                            if M.map_list[__index].gates[next] == 1 and M.number_of_players[i].move(k):
-                                                if not pygame.event.peek(turn_over):
+                                if __rotate == False:
+                                    try:
+                                        # 尋找player的房間index
+                                        __index = M.number_of_players[i].map_list_position.index(
+                                            1)
+                                        if M.move_button[k].collidepoint(mouse_position):
+                                            try:
+                                                if k == 0:
+                                                    __index -= 5
+                                                    next = 1
+                                                elif k == 1:
+                                                    __index += 5
+                                                    next = 0
+                                                elif k == 2:
+                                                    __index -= 1
+                                                    next = 3
+                                                elif k == 3:
+                                                    __index += 1
+                                                    next = 2
+                                                if M.map_list[__index].visible == False:
+                                                    M.map_list[__index].flip()
                                                     pygame.event.post(
                                                         pygame.event.Event(turn_over))
-                                        except:
-                                            pass
-                                except:
-                                    pass
+                                                if M.map_list[__index].gates[next] == 1 and M.number_of_players[i].move(k):
+                                                    if not pygame.event.peek(turn_over):
+                                                        pygame.event.post(
+                                                            pygame.event.Event(turn_over))
+                                            except:
+                                                pass
+                                    except:
+                                        pass
                 if event.type == turn_over:
                     i += 1
+                    __tem_rotate_state = []
+                    __rotate = False
                     if i == number_of_players:
                         turn -= 1
                         # 檢查是否有人在出口
@@ -144,9 +140,12 @@ def main():
                 M.window_surface.fill(0)
                 M.print_map(imgPos)
                 M.print_stay()
-                M.print_move_icon(M.number_of_players[i], imgPos)
+                # 確定旋轉完才能行走
                 if __rotate:
                     M.print_rotate()
+                else:
+                    M.print_move_icon(M.number_of_players[i], imgPos)
+
                 for player in range(number_of_players):
                     M.print_player(imgPos, player)
 

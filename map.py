@@ -12,6 +12,8 @@ from character.people import Player
 MAX_MAP_TYPE = 2
 imgPos = (350, 200)
 POSITION = []
+stay_icon_size = 125
+rotate_icon_size = 125
 
 
 def generate_position(imgPos):
@@ -56,16 +58,18 @@ class Map:
         __picture = "picture\\stay.jpg"
         __raw_image = pygame.image.load(__picture).convert_alpha()
         self.stay_icon = pygame.transform.scale(
-            __raw_image, (125, 125))
+            __raw_image, (stay_icon_size, stay_icon_size))
         self.stay_icon_rect = self.stay_icon.get_rect()
-        self.stay_icon_rect.topleft = (1000 - 125, 700 - 125)
+        self.stay_icon_rect.topleft = (
+            1000 - stay_icon_size, 700 - stay_icon_size)
 
         __picture = "picture\\rotate.jpg"
         __raw_image = pygame.image.load(__picture).convert_alpha()
         self.rotate_icon = pygame.transform.scale(
-            __raw_image, (125, 125))
+            __raw_image, (rotate_icon_size, rotate_icon_size))
         self.rotate_icon_rect = self.rotate_icon.get_rect()
-        self.rotate_icon_rect.topleft = (1000 - 250, 700 - 150)
+        self.rotate_icon_rect.topleft = (
+            1000 - 2*rotate_icon_size, 700 - rotate_icon_size)
 
     def generate_map(self):
         # 大廳的位置 (350, 200)
@@ -161,11 +165,11 @@ class Map:
 
     def print_stay(self):
         self.window_surface.blit(
-            self.stay_icon, (1000 - 125, 700 - 125))
+            self.stay_icon, (1000 - stay_icon_size, 700 - stay_icon_size))
 
     def print_rotate(self):
         self.window_surface.blit(
-            self.rotate_icon, (1000 - 250, 700 - 150))
+            self.rotate_icon, (1000 - 250, 700 - rotate_icon_size))
 
 
 if __name__ == '__main__':
