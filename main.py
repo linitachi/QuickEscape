@@ -112,16 +112,16 @@ def main():
                         # 檢查是否有人在出口
                         for i in range(number_of_players):
                             M.number_of_players[i].init_rotate_times()
-                            if M.escaoe_index == M.number_of_players[i].map_list_position.index(1):
-                                M.map_list[M.escaoe_index].reduce_save_player(
+                            if M.escape_index == M.number_of_players[i].map_list_position.index(1):
+                                M.map_list[M.escape_index].reduce_save_player(
                                     M.number_of_players[i].id)
                             else:
-                                M.map_list[M.escaoe_index].init_save_player(
+                                M.map_list[M.escape_index].init_save_player(
                                     M.number_of_players[i])
                         i = 0
 
                     __player_win = list(
-                        M.map_list[M.escaoe_index].save_player.values())
+                        M.map_list[M.escape_index].save_player.values())
                     for k in range(len(__player_win)):
                         if __player_win[k] == 0:
                             win_message += "player%s" % k + "  "

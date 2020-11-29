@@ -1,7 +1,7 @@
 import sys
 import time
 import random
-
+from random import choice
 import pygame
 from pygame.locals import Color, QUIT, MOUSEBUTTONDOWN, USEREVENT, USEREVENT
 from room.lobby import Lobby
@@ -53,7 +53,8 @@ class Map:
             self.number_of_players.append(Player(
                 "picture\\user%s.png" % str(i), (350, 200), 50, 50, "player%s" % str(i+1)))
 
-        self.generate_map()
+        roomtype_list = [RoomtypeA]
+        self.generate_map(roomtype_list)
 
         __picture = "picture\\stay.jpg"
         __raw_image = pygame.image.load(__picture).convert_alpha()
@@ -71,7 +72,7 @@ class Map:
         self.rotate_icon_rect.topleft = (
             1000 - 2*rotate_icon_size, 700 - rotate_icon_size)
 
-    def generate_map(self):
+    def generate_map(self, roomtype_list):
         # 大廳的位置 (350, 200)
         # 0代表大廳 1代表出口
         self.map_list = []
@@ -79,20 +80,17 @@ class Map:
         for i in range(25):
             if i == 12:
                 self.map_list.append(Lobby(POSITION[i], 200, 200))
-            elif i == 7 or i == 11 or i == 13 or i == 17:
-                self.map_list.append(
-                    RoomtypeA(POSITION[i], 200, 200))
             else:
                 self.map_list.append(
-                    RoomtypeA(POSITION[i], 200, 200))
+                    choice(roomtype_list)(POSITION[i], 200, 200))
 
-        # self.escaoe_index = random.randint(0, 24)
-        # while self.escaoe_index == 7 or self.escaoe_index == 11 or self.escaoe_index == 13 or self.escaoe_index == 12 or __escape == 17:
-        #     self.escaoe_index = random.randint(0, 24)
-        self.escaoe_index = 17
-        self.map_list[self.escaoe_index] = EscapeRoom(
-            POSITION[self.escaoe_index], 200, 200)
-        self.map_list[self.escaoe_index].init_save_player(
+        # self.escape_index = random.randint(0, 24)
+        # while self.escape_index == 7 or self.escape_index == 11 or self.escape_index == 13 or self.escape_index == 12 or __escape == 17:
+        #     self.escape_index = random.randint(0, 24)
+        self.escape_index = 17
+        self.map_list[self.escape_index] = EscapeRoom(
+            POSITION[self.escape_index], 200, 200)
+        self.map_list[self.escape_index].init_save_player(
             self.number_of_players)
 
     def print_map(self, imgPos):
