@@ -8,7 +8,7 @@ class Lobby(Room):
         self.gates = [1, 1, 1, 1]
         self.__picture = "picture\lobby.jpg"
         self.raw_image = pygame.image.load(self.__picture).convert_alpha()
-        self.image = pygame.transform.scale(
+        self.image = pygame.transform.smoothscale(
             self.raw_image, (self.width, self.height))
         self.position = position
         self.visible = True

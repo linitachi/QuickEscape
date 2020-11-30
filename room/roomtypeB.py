@@ -11,7 +11,7 @@ class RoomtypeB(Room):
         self.gates = [1, 1, 0, 0]
         self.__picture = "picture\\roomB.jpg"
         self.raw_image = pygame.image.load(self.back_picture).convert_alpha()
-        self.image = pygame.transform.scale(
+        self.image = pygame.transform.smoothscale(
             self.raw_image, (self.width, self.height))
         self.position = position
         self.rotate_state = 0
@@ -25,7 +25,7 @@ class RoomtypeB(Room):
             self.visible = False
             self.raw_image = pygame.image.load(
                 self.back_picture).convert_alpha()
-        self.image = pygame.transform.scale(
+        self.image = pygame.transform.smoothscale(
             self.raw_image, (self.width, self.height))
         self.rotate(random.randint(0, 3) * 90)
 

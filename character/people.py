@@ -4,7 +4,8 @@ import pygame
 class Player():
     def __init__(self, picture, position=(150, 150), width=250, height=250, id=""):
         self.raw_image = pygame.image.load(picture).convert_alpha()
-        self.image = pygame.transform.scale(self.raw_image, (width, height))
+        self.image = pygame.transform.smoothscale(
+            self.raw_image, (width, height))
         self.position = position
         self.id = id
         self.map_list_position = 12
@@ -36,10 +37,10 @@ class Player():
     def rotate_room(self):
         self.rotate_times -= 1
 
-    def init_rotate_times(self,num):
+    def init_rotate_times(self, num):
         self.rotate_times = num
 
-    def init_move_times(self,num):
+    def init_move_times(self, num):
         self.move_times = num
 
     def reduce_move_times(self):

@@ -107,7 +107,7 @@ class Map:
 
         __raw_image = pygame.image.load(
             "picture\\next-button.png").convert_alpha()
-        __image = pygame.transform.scale(__raw_image, (50, 50))
+        __image = pygame.transform.smoothscale(__raw_image, (50, 50))
 
         self.move_button = [0] * 4
         # 上
@@ -158,9 +158,9 @@ class Map:
                 self.player_list[index_of_player].image, (imgPos[0]+remainder+75*(index_of_player-3), imgPos[1]+150+quotient))
 
     def init_stay_button(self):
-        __picture = "picture\\stay.jpg"
+        __picture = "picture\\stay.png"
         __raw_image = pygame.image.load(__picture).convert_alpha()
-        self.stay_icon = pygame.transform.scale(
+        self.stay_icon = pygame.transform.smoothscale(
             __raw_image, (stay_icon_size, stay_icon_size))
         self.stay_icon_rect = self.stay_icon.get_rect()
         self.stay_icon_rect.topleft = (
@@ -173,9 +173,9 @@ class Map:
         self.stay_icon_rect.topleft = (x - stay_icon_size, y - stay_icon_size)
 
     def init_rotate_button(self):
-        __picture = "picture\\rotate.jpg"
+        __picture = "picture\\rotate.png"
         __raw_image = pygame.image.load(__picture).convert_alpha()
-        self.rotate_icon = pygame.transform.scale(
+        self.rotate_icon = pygame.transform.smoothscale(
             __raw_image, (rotate_icon_size, rotate_icon_size))
         self.rotate_icon_rect = self.rotate_icon.get_rect()
         self.rotate_icon_rect.topleft = (

@@ -12,7 +12,7 @@ class Room:
         self.visible = False
         self.back_picture = "picture\\back.jpg"
         self.raw_image = pygame.image.load(self.back_picture).convert_alpha()
-        self.image = pygame.transform.scale(
+        self.image = pygame.transform.smoothscale(
             self.raw_image, (self.width, self.height))
         self.rect = self.image.get_rect()
         self.rect.topleft = (position[0], position[1])
@@ -25,7 +25,7 @@ class Room:
         else:
             self.height -= height
             self.width -= width
-        return pygame.transform.scale(raw_image, (self.width, self.height))
+        return pygame.transform.smoothscale(raw_image, (self.width, self.height))
 
     def flip(self):
         pass
