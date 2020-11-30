@@ -55,7 +55,7 @@ def main():
                             pygame.event.post(
                                 pygame.event.Event(turn_over))
                         # Click rotate_icon
-                        if M.rotate_icon_rect.collidepoint(mouse_position):
+                        if M.rotate_icon_rect.collidepoint(mouse_position) and __rotate == True:
                             __rotate = False
                             __tem = 0
                             __origin_times = M.player_list[player_turn[i]
@@ -90,7 +90,8 @@ def main():
                                         # 尋找player的房間index
                                         __index = M.player_list[player_turn[i]
                                                                 ].map_list_position
-                                        if M.move_button[k].collidepoint(mouse_position):
+                                        if M.move_button[k].collidepoint(mouse_position) and M.player_list[player_turn[i]
+                                                                                                           ].move_times > 0:
                                             try:
                                                 if k == 0:
                                                     __index -= 5
@@ -186,7 +187,6 @@ def main():
                 #                                      i, i, 0)
             M.window_surface.fill(0)
             M.print_map(imgPos)
-            M.print_stay()
             # 確定旋轉完才能行走
             if __rotate:
                 M.print_rotate()
@@ -195,6 +195,9 @@ def main():
 
             for player in player_index:
                 M.print_player(imgPos, player)
+
+            M.print_stay()
+            M.print_dice()
 
             turn_text = my_font.render(
                 'Turn of:{} Turn:{} Move_Times:{} Rotate_Times:{}'.format(M.player_list[player_turn[i]].id, turn, M.player_list[player_turn[i]].move_times, M.player_list[player_turn[i]].rotate_times), True, (255, 255, 255))

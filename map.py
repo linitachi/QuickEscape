@@ -17,6 +17,7 @@ imgPos = (350, 200)
 POSITION = []
 stay_icon_size = 125
 rotate_icon_size = 125
+dice_icon_size = 125
 
 
 def generate_position(imgPos):
@@ -74,6 +75,8 @@ class Map:
         self.rotate_icon_rect = self.rotate_icon.get_rect()
         self.rotate_icon_rect.topleft = (
             1000 - 2*rotate_icon_size, 700 - rotate_icon_size)
+
+        self.init_dice()
 
     def generate_map(self, roomtype_list):
         # 大廳的位置 (350, 200)
@@ -164,15 +167,52 @@ class Map:
                 self.player_list[index_of_player].image, (imgPos[0]+remainder+75*(index_of_player-3), imgPos[1]+150+quotient))
 
     def print_stay(self):
+        x, y = self.window_surface.get_size()
         self.window_surface.blit(
-            self.stay_icon, (1000 - stay_icon_size, 700 - stay_icon_size))
+            self.stay_icon, (x - stay_icon_size, y - stay_icon_size))
+        self.stay_icon_rect.topleft = (x - stay_icon_size, y - stay_icon_size)
 
     def print_rotate(self):
+        x, y = self.window_surface.get_size()
         self.window_surface.blit(
-            self.rotate_icon, (1000 - 250, 700 - rotate_icon_size))
+            self.rotate_icon, (x - 250, y - rotate_icon_size))
+        self.rotate_icon_rect.topleft = (x - 250, y - rotate_icon_size)
 
     def print_dice(self):
-        pass
+        x, y = self.window_surface.get_size()
+        self.window_surface.blit(
+            self.dice_icon, (0, y - dice_icon_size))
+        self.window_surface.blit(
+            self.dice_icon2, (dice_icon_size, y - dice_icon_size))
+        self.window_surface.blit(
+            self.dice_icon3, (2*dice_icon_size, y - dice_icon_size))
+        self.dice_icon_rect.topleft = (
+            0, y - dice_icon_size)
+        self.dice_icon2_rect.topleft = (
+            0, y - dice_icon_size)
+        self.dice_icon3_rect.topleft = (
+            0, y - dice_icon_size)
+
+    def init_dice(self):
+        __picture = "picture\\dice\\move.png"
+        __raw_image = pygame.image.load(__picture).convert_alpha()
+        self.dice_icon = pygame.transform.scale(
+            __raw_image, (dice_icon_size, dice_icon_size))
+        self.dice_icon_rect = self.dice_icon.get_rect()
+        self.dice_icon_rect.topleft = (
+            0, 700 - dice_icon_size)
+
+        self.dice_icon2 = pygame.transform.scale(
+            __raw_image, (dice_icon_size, dice_icon_size))
+        self.dice_icon2_rect = self.dice_icon2.get_rect()
+        self.dice_icon2_rect.topleft = (
+            dice_icon_size, 700 - dice_icon_size)
+
+        self.dice_icon3 = pygame.transform.scale(
+            __raw_image, (dice_icon_size, dice_icon_size))
+        self.dice_icon3_rect = self.dice_icon3.get_rect()
+        self.dice_icon3_rect.topleft = (
+            2*dice_icon_size, 700 - dice_icon_size)
 
 
 if __name__ == '__main__':
