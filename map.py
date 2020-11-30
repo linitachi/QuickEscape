@@ -46,7 +46,7 @@ class Map:
         WINDOW_HEIGHT = 700
         BLACK = (0, 0, 0)
         self.window_surface = pygame.display.set_mode(
-            (WINDOW_WIDTH, WINDOW_HEIGHT))
+            (WINDOW_WIDTH, WINDOW_HEIGHT), pygame.RESIZABLE)
         pygame.display.set_caption('QuickEscape!!')
 
         self.window_surface.fill(BLACK)
@@ -170,6 +170,9 @@ class Map:
     def print_rotate(self):
         self.window_surface.blit(
             self.rotate_icon, (1000 - 250, 700 - rotate_icon_size))
+
+    def print_dice(self):
+        pass
 
 
 if __name__ == '__main__':

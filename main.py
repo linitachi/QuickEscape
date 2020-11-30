@@ -38,6 +38,16 @@ def main():
                         rel = event.rel
                         imgPos.x += rel[0]
                         imgPos.y += rel[1]
+                        # 限制使用者移動螢幕的範圍
+                        if imgPos.x > 760:
+                            imgPos.x = 760
+                        if imgPos.x < 72:
+                            imgPos.x = 72
+                        if imgPos.y > 734:
+                            imgPos.y = 734
+                        if imgPos.y < -225:
+                            imgPos.y = -225
+
                 if event.type == MOUSEBUTTONDOWN:
                     mouse_position = pygame.mouse.get_pos()
                     if event.button == 1:
