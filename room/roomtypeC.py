@@ -30,4 +30,8 @@ class RoomtypeC(Room):
     # TODO:
 
     def utility(self, player):
-        player.Live = False
+        if player.Live == "LIVE":
+            player.Live = "DYING"
+        else:
+            player.Live = "DIED"
+            print("有人死")

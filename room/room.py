@@ -44,5 +44,6 @@ class Room:
             __angle = 90
         self.rotate(__angle)
 
-    def utility(self):
-        pass
+    def utility(self, player):
+        if player.Live == "DYING":
+            player.Live = "LIVE"

@@ -25,7 +25,7 @@ def main():
 
     imgPos = pygame.Rect((350, 200), (0, 0))
     i = 0
-    player_turn = random.sample(player_index, number_of_players)
+    player_turn = random.sample(player_index, len(player_index))
     __tem_rotate_state = []
     while True:
         if turn > 0:
@@ -54,7 +54,7 @@ def main():
                                 if __tem_rotate_state[k] != M.map_list[k].rotate_state:
                                     M.player_list[player_turn[i]].rotate_room()
                                     __tem += 1
-                            # 檢查是否超過旋轉次數
+                            # 檢查是否超過旋轉次數 超過的話就重置旋轉次數與房間
                             if M.player_list[player_turn[i]].rotate_times < 0:
                                 if __tem > 2 and __origin_times == 2:
                                     M.player_list[player_turn[i]
@@ -81,7 +81,8 @@ def main():
                                 if __rotate == False:
                                     try:
                                         # 尋找player的房間index
-                                        __index = M.player_list[player_turn[i]].map_list_position
+                                        __index = M.player_list[player_turn[i]
+                                                                ].map_list_position
                                         if M.move_button[k].collidepoint(mouse_position):
                                             try:
                                                 if k == 0:
@@ -109,17 +110,23 @@ def main():
                                     except:
                                         pass
                 if event.type == turn_over:
+                    M.map_list[M.player_list[player_turn[i]].map_list_position].utility(
+                        M.player_list[player_turn[i]])
+
+                    #  把死掉的玩家移出遊戲
+                    print(M.player_list[player_turn[i]].id,
+                          M.player_list[player_turn[i]].Live)
+                    if M.player_list[player_turn[i]].Live == "DIED":
+                        print(player_turn[i], "已經死掉了")
+                        player_index.pop(player_index.index(player_turn[i]))
                     i += 1
-                    # 跳過死掉的玩家 並把該玩家移出遊戲
-                    while i < number_of_players and M.player_list[player_turn[i]].Live == False:
-                        player_index.erase(player_index.index(player_turn[i]))
-                        i += 1
+
                     __tem_rotate_state = []
                     __rotate = False
-                    if i == number_of_players:
+                    if i == len(player_turn):
                         turn -= 1
                         # 檢查是否有人在出口
-                        for i in range(number_of_players):
+                        for i in range(len(player_index)):
                             M.player_list[player_turn[i]].init_rotate_times()
                             if M.escape_index == M.player_list[player_turn[i]].map_list_position:
                                 M.map_list[M.escape_index].reduce_save_player(
@@ -130,8 +137,15 @@ def main():
 
                         i = 0
                         player_turn = random.sample(
-                            player_index, number_of_players)
-                        print(player_turn)
+                            player_index, len(player_index))
+                        print("下回合人數", len(player_turn))
+                        # 如果下回合沒有玩家可以行動(代表玩家都死光了)
+                        if len(player_turn) == 0:
+                            turn = 0
+                            win_message += "win"
+                            break
+
+                            # 檢查是否有玩家獲勝
                     __player_win = list(
                         M.map_list[M.escape_index].save_player.values())
                     for k in range(len(__player_win)):
@@ -158,7 +172,7 @@ def main():
                 else:
                     M.print_move_icon(M.player_list[player_turn[i]], imgPos)
 
-                for player in range(number_of_players):
+                for player in player_turn:
                     M.print_player(imgPos, player)
 
                 turn_text = my_font.render(
