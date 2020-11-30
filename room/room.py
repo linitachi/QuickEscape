@@ -51,8 +51,12 @@ class Room:
 
     # 離開房間的效果
     def move_utility(self, player):
+        print("走出去")
+
         pass
 
+    # 進去房間的效果
     def in_utility(self, player):
+        print("哈哈")
         if player.Live == "DYING":
             player.Live = "LIVE"

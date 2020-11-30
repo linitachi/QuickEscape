@@ -8,6 +8,7 @@ from room.lobby import Lobby
 from room.roomtypeA import RoomtypeA
 from room.roomtypeB import RoomtypeB
 from room.roomtypeC import RoomtypeC
+from room.roomtypeD import RoomtypeD
 
 from room.escaperoom import EscapeRoom
 from dice import Dice
@@ -59,8 +60,8 @@ class Map:
             self.player_list.append(Player(
                 "picture\\user%s.png" % str(i), (350, 200), 50, 50, "player%s" % str(i+1)))
 
-        roomtype_list = [RoomtypeA, RoomtypeB, RoomtypeC]
-        # roomtype_list = [RoomtypeC]
+        # roomtype_list = [RoomtypeA, RoomtypeB, RoomtypeC, RoomtypeD]
+        roomtype_list = [RoomtypeD]
         self.generate_map(roomtype_list)
 
         self.init_stay_button()

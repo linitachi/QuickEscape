@@ -153,9 +153,12 @@ def main():
                                                     if M.map_list[__index].gates[next] != 1:
                                                         M.player_list[player_turn[i]].reduce_move_times(
                                                         )
-
+                                                __back_postition = M.player_list[player_turn[i]
+                                                                                 ].map_list_position
                                                 if M.map_list[__index].gates[next] == 1 and M.player_list[player_turn[i]].move(k):
-                                                    M.map_list[M.player_list[player_turn[i]].map_list_position].in_utility(
+                                                    M.map_list[__index].in_utility(
+                                                        M.player_list[player_turn[i]])
+                                                    M.map_list[__back_postition].move_utility(
                                                         M.player_list[player_turn[i]])
                                                     M.player_list[player_turn[i]].reduce_move_times(
                                                     )
