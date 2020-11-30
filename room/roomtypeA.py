@@ -12,6 +12,7 @@ class RoomtypeA(Room):
         self.image = pygame.transform.scale(
             self.raw_image, (self.width, self.height))
         self.position = position
+        self.rotate_state = 0
 
     def flip(self):
         if self.visible == False:

@@ -14,6 +14,7 @@ class RoomtypeB(Room):
         self.image = pygame.transform.scale(
             self.raw_image, (self.width, self.height))
         self.position = position
+        self.rotate_state = 0
 
     def flip(self):
         if self.visible == False:
@@ -32,12 +33,8 @@ class RoomtypeB(Room):
         self.image = pygame.transform.rotate(self.image, angle)
         angle = angle // 90
         self.rotate_state += angle
-        self.rotate_state %= 4
+        self.rotate_state %= 2
         if self.rotate_state == 0:
             self.gates = [1, 1, 0, 0]
         elif self.rotate_state == 1:
-            self.gates = [0, 0, 1, 1]
-        elif self.rotate_state == 2:
-            self.gates = [1, 1, 0, 0]
-        elif self.rotate_state == 3:
             self.gates = [0, 0, 1, 1]

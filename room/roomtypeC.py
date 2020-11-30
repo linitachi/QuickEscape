@@ -27,11 +27,9 @@ class RoomtypeC(Room):
         self.image = pygame.transform.scale(
             self.raw_image, (self.width, self.height))
         self.rotate(random.randint(0, 3) * 90)
-    # TODO:
 
     def utility(self, player):
         if player.Live == "LIVE":
             player.Live = "DYING"
         else:
             player.Live = "DIED"
-            print("有人死")
