@@ -44,6 +44,15 @@ class Room:
             __angle = 90
         self.rotate(__angle)
 
+    # 待在房間的效果
     def utility(self, player):
+        if player.Live == "DYING":
+            player.Live = "LIVE"
+
+    # 離開房間的效果
+    def move_utility(self, player):
+        pass
+
+    def in_utility(self, player):
         if player.Live == "DYING":
             player.Live = "LIVE"

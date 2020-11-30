@@ -19,6 +19,7 @@ POSITION = []
 stay_icon_size = 125
 rotate_icon_size = 125
 dice_icon_size = 125
+dice_confirm_icon_size = 125
 
 
 def generate_position(imgPos):
@@ -59,23 +60,12 @@ class Map:
                 "picture\\user%s.png" % str(i), (350, 200), 50, 50, "player%s" % str(i+1)))
 
         roomtype_list = [RoomtypeA, RoomtypeB, RoomtypeC]
+        # roomtype_list = [RoomtypeC]
         self.generate_map(roomtype_list)
 
-        __picture = "picture\\stay.jpg"
-        __raw_image = pygame.image.load(__picture).convert_alpha()
-        self.stay_icon = pygame.transform.scale(
-            __raw_image, (stay_icon_size, stay_icon_size))
-        self.stay_icon_rect = self.stay_icon.get_rect()
-        self.stay_icon_rect.topleft = (
-            1000 - stay_icon_size, 700 - stay_icon_size)
-
-        __picture = "picture\\rotate.jpg"
-        __raw_image = pygame.image.load(__picture).convert_alpha()
-        self.rotate_icon = pygame.transform.scale(
-            __raw_image, (rotate_icon_size, rotate_icon_size))
-        self.rotate_icon_rect = self.rotate_icon.get_rect()
-        self.rotate_icon_rect.topleft = (
-            1000 - 2*rotate_icon_size, 700 - rotate_icon_size)
+        self.init_stay_button()
+        self.init_rotate_button()
+        self.init_dice_confirm_button()
 
         self.dice_list = [Dice(0), Dice(1), Dice(2)]
 
@@ -91,10 +81,10 @@ class Map:
                 self.map_list.append(
                     choice(roomtype_list)(POSITION[i], 200, 200))
 
-        # self.escape_index = random.randint(0, 24)
-        # while self.escape_index == 7 or self.escape_index == 11 or self.escape_index == 13 or self.escape_index == 12 or __escape == 17:
-        #     self.escape_index = random.randint(0, 24)
-        self.escape_index = 17
+        self.escape_index = random.randint(0, 24)
+        while self.escape_index == 7 or self.escape_index == 11 or self.escape_index == 13 or self.escape_index == 12 or self.escape_index == 17:
+            self.escape_index = random.randint(0, 24)
+        # self.escape_index = 17
         self.map_list[self.escape_index] = EscapeRoom(
             POSITION[self.escape_index], 200, 200)
         self.map_list[self.escape_index].init_save_player(
@@ -167,11 +157,29 @@ class Map:
             self.window_surface.blit(
                 self.player_list[index_of_player].image, (imgPos[0]+remainder+75*(index_of_player-3), imgPos[1]+150+quotient))
 
+    def init_stay_button(self):
+        __picture = "picture\\stay.jpg"
+        __raw_image = pygame.image.load(__picture).convert_alpha()
+        self.stay_icon = pygame.transform.scale(
+            __raw_image, (stay_icon_size, stay_icon_size))
+        self.stay_icon_rect = self.stay_icon.get_rect()
+        self.stay_icon_rect.topleft = (
+            1000 - stay_icon_size, 700 - stay_icon_size)
+
     def print_stay(self):
         x, y = self.window_surface.get_size()
         self.window_surface.blit(
             self.stay_icon, (x - stay_icon_size, y - stay_icon_size))
         self.stay_icon_rect.topleft = (x - stay_icon_size, y - stay_icon_size)
+
+    def init_rotate_button(self):
+        __picture = "picture\\rotate.jpg"
+        __raw_image = pygame.image.load(__picture).convert_alpha()
+        self.rotate_icon = pygame.transform.scale(
+            __raw_image, (rotate_icon_size, rotate_icon_size))
+        self.rotate_icon_rect = self.rotate_icon.get_rect()
+        self.rotate_icon_rect.topleft = (
+            1000 - 2*rotate_icon_size, 700 - rotate_icon_size)
 
     def print_rotate(self):
         x, y = self.window_surface.get_size()
@@ -189,40 +197,27 @@ class Map:
                 __i * dice_icon_size, y - dice_icon_size)
             __i += 1
 
-    # def init_dice(self):
-    #     __picture = "picture\\dice\\move.png"
-    #     __raw_image = pygame.image.load(__picture).convert_alpha()
-    #     self.dice_icon = pygame.transform.scale(
-    #         __raw_image, (dice_icon_size, dice_icon_size))
-    #     self.dice_icon_rect = self.dice_icon.get_rect()
-    #     self.dice_icon_rect.topleft = (
-    #         0, 700 - dice_icon_size)
+    def init_dice_confirm_button(self):
+        __picture = "picture\\dice\\confirm.png"
+        __raw_image = pygame.image.load(__picture).convert_alpha()
+        self.dice_confirm_icon = pygame.transform.smoothscale(
+            __raw_image, (stay_icon_size, stay_icon_size))
+        self.dice_confirm_rect = self.stay_icon.get_rect()
+        self.dice_confirm_rect.topleft = (
+            dice_confirm_icon_size*3, 700 - dice_confirm_icon_size)
 
-    #     self.dice_icon2 = pygame.transform.scale(
-    #         __raw_image, (dice_icon_size, dice_icon_size))
-    #     self.dice_icon2_rect = self.dice_icon2.get_rect()
-    #     self.dice_icon2_rect.topleft = (
-    #         dice_icon_size, 700 - dice_icon_size)
+    def print_dice_confirm(self):
+        x, y = self.window_surface.get_size()
+        self.window_surface.blit(
+            self.dice_confirm_icon, (3*dice_confirm_icon_size, y - dice_confirm_icon_size))
+        self.dice_confirm_rect.topleft = (
+            3 * dice_confirm_icon_size, y - dice_confirm_icon_size)
 
-    #     self.dice_icon3 = pygame.transform.scale(
-    #         __raw_image, (dice_icon_size, dice_icon_size))
-    #     self.dice_icon3_rect = self.dice_icon3.get_rect()
-    #     self.dice_icon3_rect.topleft = (
-    #         2*dice_icon_size, 700 - dice_icon_size)
-
-    # def roll_dice(self, dice):
-    #     __dice = random.randint(0, 6)
-    #     if __dice < 3:
-    #         __picture = "picture\\dice\\move.png"
-    #     elif __dice < 5:
-    #         __picture = "picture\\dice\\rotate.png"
-    #     else:
-    #         __picture = "picture\\dice\\nothing.png"
-    #     __raw_image_dice = pygame.image.load(__picture).convert_alpha()
-    #     dice = pygame.transform.smoothscale(
-    #         __raw_image_dice, (dice_icon_size, dice_icon_size))
-    #     return dice
-
-
-if __name__ == '__main__':
-    a = Map()
+    def get_all_dice(self):
+        __rotate_times = 0
+        __move_times = 0
+        for i in self.dice_list:
+            __move, __rotate = i.get_dice_utility()
+            __move_times += __move
+            __rotate_times += __rotate
+        return __move_times, __rotate_times

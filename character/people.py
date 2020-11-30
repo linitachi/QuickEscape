@@ -36,11 +36,11 @@ class Player():
     def rotate_room(self):
         self.rotate_times -= 1
 
-    def init_rotate_times(self):
-        self.rotate_times = 2
+    def init_rotate_times(self,num):
+        self.rotate_times = num
 
-    def init_move_times(self):
-        self.move_times = 2
+    def init_move_times(self,num):
+        self.move_times = num
 
     def reduce_move_times(self):
         self.move_times -= 1
