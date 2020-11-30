@@ -104,7 +104,7 @@ class Map:
 
     def print_move_icon(self, player, imgPos):
         # 大廳的位置 (350, 200)
-        __index = player.map_list_position.index(1)
+        __index = player.map_list_position
 
         quotient = __index // 5
         remainder = __index % 5
@@ -151,8 +151,7 @@ class Map:
                 __rotate_image, (imgPos[0] + remainder-150, imgPos[1] + quotient+150))
 
     def print_player(self, imgPos, index_of_player):
-        __index = self.player_list[index_of_player].map_list_position.index(
-            1)
+        __index = self.player_list[index_of_player].map_list_position
         quotient = __index // 5
         remainder = __index % 5
         quotient = 300 * quotient - 600

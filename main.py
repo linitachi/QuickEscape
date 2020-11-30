@@ -81,8 +81,7 @@ def main():
                                 if __rotate == False:
                                     try:
                                         # 尋找player的房間index
-                                        __index = M.player_list[player_turn[i]].map_list_position.index(
-                                            1)
+                                        __index = M.player_list[player_turn[i]].map_list_position
                                         if M.move_button[k].collidepoint(mouse_position):
                                             try:
                                                 if k == 0:
@@ -122,7 +121,7 @@ def main():
                         # 檢查是否有人在出口
                         for i in range(number_of_players):
                             M.player_list[player_turn[i]].init_rotate_times()
-                            if M.escape_index == M.player_list[player_turn[i]].map_list_position.index(1):
+                            if M.escape_index == M.player_list[player_turn[i]].map_list_position:
                                 M.map_list[M.escape_index].reduce_save_player(
                                     M.player_list[player_turn[i]].id)
                             else:

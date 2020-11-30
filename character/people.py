@@ -7,33 +7,28 @@ class Player():
         self.image = pygame.transform.scale(self.raw_image, (width, height))
         self.position = position
         self.id = id
-        self.map_list_position = [0] * 25
-        self.map_list_position[12] = 1
+        self.map_list_position = 12
         self.rotate_times = 2
         self.Live = True
 
     def move(self, direction):
         # 上0 下1 左2 右3
-        __index = self.map_list_position.index(1)
+        __index = self.map_list_position
         # 往上
         if direction == 0 and __index > 4:
-            self.map_list_position[__index] = 0
-            self.map_list_position[__index - 5] = 1
+            self.map_list_position = __index-5
             return True
         # 往下
         elif direction == 1 and __index < 20:
-            self.map_list_position[__index] = 0
-            self.map_list_position[__index + 5] = 1
+            self.map_list_position = __index+5
             return True
         # 往左
         elif direction == 2 and (__index % 5) != 0:
-            self.map_list_position[__index] = 0
-            self.map_list_position[__index - 1] = 1
+            self.map_list_position = __index-1
             return True
         # 往右
         elif direction == 3 and (__index % 5) != 4:
-            self.map_list_position[__index] = 0
-            self.map_list_position[__index + 1] = 1
+            self.map_list_position = __index+1
             return True
         return False
 
