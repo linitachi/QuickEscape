@@ -17,6 +17,8 @@ player_index = [i for i in range(number_of_players)]
 
 
 def main():
+    test_true = True
+
     win_message = ""
     M = Map(number_of_players)
     turn = 9
@@ -27,6 +29,8 @@ def main():
     i = 0
     player_turn = random.sample(player_index, len(player_index))
     __tem_rotate_state = []
+    for k in M.dice_list:
+        k.roll_dice()
     while True:
         if turn > 0:
             for event in pygame.event.get():
@@ -51,6 +55,10 @@ def main():
                 if event.type == MOUSEBUTTONDOWN:
                     mouse_position = pygame.mouse.get_pos()
                     if event.button == 1:
+                        for k in M.dice_list:
+                            if k.dice_icon_rect.collidepoint(mouse_position):
+                                k.roll_dice()
+
                         if M.stay_icon_rect.collidepoint(mouse_position):
                             pygame.event.post(
                                 pygame.event.Event(turn_over))
@@ -131,6 +139,8 @@ def main():
                 if M.player_list[player_turn[i]].rotate_times == 0 and M.player_list[player_turn[i]].move_times == 0:
                     pygame.event.post(pygame.event.Event(turn_over))
                 if event.type == turn_over:
+                    for k in M.dice_list:
+                        k.roll_dice()
                     M.map_list[M.player_list[player_turn[i]].map_list_position].utility(
                         M.player_list[player_turn[i]])
 

@@ -10,8 +10,9 @@ from room.roomtypeB import RoomtypeB
 from room.roomtypeC import RoomtypeC
 
 from room.escaperoom import EscapeRoom
-
+from dice import Dice
 from character.people import Player
+
 MAX_MAP_TYPE = 2
 imgPos = (350, 200)
 POSITION = []
@@ -76,7 +77,7 @@ class Map:
         self.rotate_icon_rect.topleft = (
             1000 - 2*rotate_icon_size, 700 - rotate_icon_size)
 
-        self.init_dice()
+        self.dice_list = [Dice(0), Dice(1), Dice(2)]
 
     def generate_map(self, roomtype_list):
         # 大廳的位置 (350, 200)
@@ -180,39 +181,47 @@ class Map:
 
     def print_dice(self):
         x, y = self.window_surface.get_size()
-        self.window_surface.blit(
-            self.dice_icon, (0, y - dice_icon_size))
-        self.window_surface.blit(
-            self.dice_icon2, (dice_icon_size, y - dice_icon_size))
-        self.window_surface.blit(
-            self.dice_icon3, (2*dice_icon_size, y - dice_icon_size))
-        self.dice_icon_rect.topleft = (
-            0, y - dice_icon_size)
-        self.dice_icon2_rect.topleft = (
-            0, y - dice_icon_size)
-        self.dice_icon3_rect.topleft = (
-            0, y - dice_icon_size)
+        __i = 0
+        for dice in self.dice_list:
+            self.window_surface.blit(
+                dice.dice_icon, (__i*dice_icon_size, y - dice_icon_size))
+            dice.dice_icon_rect.topleft = (
+                __i * dice_icon_size, y - dice_icon_size)
+            __i += 1
 
-    def init_dice(self):
-        __picture = "picture\\dice\\move.png"
-        __raw_image = pygame.image.load(__picture).convert_alpha()
-        self.dice_icon = pygame.transform.scale(
-            __raw_image, (dice_icon_size, dice_icon_size))
-        self.dice_icon_rect = self.dice_icon.get_rect()
-        self.dice_icon_rect.topleft = (
-            0, 700 - dice_icon_size)
+    # def init_dice(self):
+    #     __picture = "picture\\dice\\move.png"
+    #     __raw_image = pygame.image.load(__picture).convert_alpha()
+    #     self.dice_icon = pygame.transform.scale(
+    #         __raw_image, (dice_icon_size, dice_icon_size))
+    #     self.dice_icon_rect = self.dice_icon.get_rect()
+    #     self.dice_icon_rect.topleft = (
+    #         0, 700 - dice_icon_size)
 
-        self.dice_icon2 = pygame.transform.scale(
-            __raw_image, (dice_icon_size, dice_icon_size))
-        self.dice_icon2_rect = self.dice_icon2.get_rect()
-        self.dice_icon2_rect.topleft = (
-            dice_icon_size, 700 - dice_icon_size)
+    #     self.dice_icon2 = pygame.transform.scale(
+    #         __raw_image, (dice_icon_size, dice_icon_size))
+    #     self.dice_icon2_rect = self.dice_icon2.get_rect()
+    #     self.dice_icon2_rect.topleft = (
+    #         dice_icon_size, 700 - dice_icon_size)
 
-        self.dice_icon3 = pygame.transform.scale(
-            __raw_image, (dice_icon_size, dice_icon_size))
-        self.dice_icon3_rect = self.dice_icon3.get_rect()
-        self.dice_icon3_rect.topleft = (
-            2*dice_icon_size, 700 - dice_icon_size)
+    #     self.dice_icon3 = pygame.transform.scale(
+    #         __raw_image, (dice_icon_size, dice_icon_size))
+    #     self.dice_icon3_rect = self.dice_icon3.get_rect()
+    #     self.dice_icon3_rect.topleft = (
+    #         2*dice_icon_size, 700 - dice_icon_size)
+
+    # def roll_dice(self, dice):
+    #     __dice = random.randint(0, 6)
+    #     if __dice < 3:
+    #         __picture = "picture\\dice\\move.png"
+    #     elif __dice < 5:
+    #         __picture = "picture\\dice\\rotate.png"
+    #     else:
+    #         __picture = "picture\\dice\\nothing.png"
+    #     __raw_image_dice = pygame.image.load(__picture).convert_alpha()
+    #     dice = pygame.transform.smoothscale(
+    #         __raw_image_dice, (dice_icon_size, dice_icon_size))
+    #     return dice
 
 
 if __name__ == '__main__':
