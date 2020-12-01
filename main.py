@@ -227,11 +227,9 @@ def main(number_of_players=2):
                                                                        ].map_list_position].rect.topleft[1]
 
                     # 檢查是否有玩家獲勝
-                    __player_win = list(
-                        M.map_list[M.escape_index].save_player.values())
-                    for k in range(len(__player_win)):
-                        if __player_win[k] == 0:
-                            win_message += "%s" % M.player_list[player_turn[i]].id + "  "
+                    for k in player_turn:
+                        if M.map_list[M.escape_index].save_player[M.player_list[k].id] == 0:
+                            win_message += "%s" % M.player_list[k].id + "  "
                             turn = 0
                     if turn == 0:
                         win_message += "win"

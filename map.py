@@ -64,8 +64,9 @@ class Map:
             self.player_list.append(Player(
                 "picture\\user%s.png" % str(i), (350, 200), 50, 50, "player%s" % str(i+1)))
 
-        # roomtype_list = [RoomtypeA, RoomtypeB, RoomtypeC, RoomtypeD,RoomtypeE,RoomtypeF,RoomtypeG]
-        roomtype_list = [RoomtypeG]
+        roomtype_list = [RoomtypeA, RoomtypeB, RoomtypeC,
+                         RoomtypeD, RoomtypeE, RoomtypeF, RoomtypeG]
+        # roomtype_list = [RoomtypeG]
         self.generate_map(roomtype_list)
 
         self.init_stay_button()
@@ -91,7 +92,7 @@ class Map:
         self.escape_index = random.randint(0, 24)
         while self.escape_index == 7 or self.escape_index == 11 or self.escape_index == 13 or self.escape_index == 12 or self.escape_index == 17:
             self.escape_index = random.randint(0, 24)
-        self.escape_index = 17
+        # self.escape_index = 17
         self.map_list[self.escape_index] = EscapeRoom(
             POSITION[self.escape_index], 200, 200)
         self.map_list[self.escape_index].init_save_player(
