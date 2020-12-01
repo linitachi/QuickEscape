@@ -14,11 +14,14 @@ turn_over = USEREVENT+1
 game_over = USEREVENT + 2
 
 
-def main(number_of_players):
+def main(number_of_players=2):
+    if number_of_players < 4:
+        turn = 12
+    else:
+        turn = 9
     player_index = [i for i in range(number_of_players)]
     win_message = ""
     M = Map(number_of_players)
-    turn = 20
     __rotate = False
     __dice_confirm = True
     __dice = True
@@ -168,7 +171,6 @@ def main(number_of_players):
                         print(player_turn[i], "已經死掉了")
                         player_index.pop(player_index.index(player_turn[i]))
                     i += 1
-
                     for k in M.dice_list:
                         k.init_dice()
                     __move_times, __rotate_times = M.get_all_dice()
@@ -209,6 +211,13 @@ def main(number_of_players):
                         M.player_list[player_turn[i]
                                       ].init_move_times(__move_times)
 
+                    # 畫面自動移動到腳色位置
+                    imgPos[0] = 350+imgPos[0] - M.map_list[M.player_list[player_turn[i]
+                                                                         ].map_list_position].rect.topleft[0]
+                    imgPos[1] = 200+imgPos[1]-M.map_list[M.player_list[player_turn[i]
+                                                                       ].map_list_position].rect.topleft[1]
+                    print(imgPos, M.map_list[M.player_list[player_turn[i]
+                                                           ].map_list_position].rect.topleft)
                     # 檢查是否有玩家獲勝
                     __player_win = list(
                         M.map_list[M.escape_index].save_player.values())
@@ -243,7 +252,7 @@ def main(number_of_players):
                 if __dice_confirm:
                     M.print_dice_confirm()
                 turn_text = my_font.render(
-                    'Turn of:{} Turn:{} Move_Times:{} Rotate_Times:{}'.format(M.player_list[player_turn[i]].id, turn, M.player_list[player_turn[i]].move_times, M.player_list[player_turn[i]].rotate_times), True, (255, 255, 255))
+                    'Turn of:{} Turn:{} Move:{} Rotate:{}'.format(M.player_list[player_turn[i]].id, turn, M.player_list[player_turn[i]].move_times, M.player_list[player_turn[i]].rotate_times), True, (255, 255, 255))
                 M.window_surface.blit(turn_text, (0, 0))
                 pygame.display.flip()
         else:

@@ -60,8 +60,8 @@ class Map:
             self.player_list.append(Player(
                 "picture\\user%s.png" % str(i), (350, 200), 50, 50, "player%s" % str(i+1)))
 
-        # roomtype_list = [RoomtypeA, RoomtypeB, RoomtypeC, RoomtypeD]
-        roomtype_list = [RoomtypeD]
+        roomtype_list = [RoomtypeA, RoomtypeB, RoomtypeC, RoomtypeD]
+        # roomtype_list = [RoomtypeD]
         self.generate_map(roomtype_list)
 
         self.init_stay_button()
@@ -69,6 +69,8 @@ class Map:
         self.init_dice_confirm_button()
 
         self.dice_list = [Dice(0), Dice(1), Dice(2)]
+
+        self.move_button = [0] * 4
 
     def generate_map(self, roomtype_list):
         # 大廳的位置 (350, 200)
