@@ -6,17 +6,16 @@ import pygame
 # from pygame.locals import Color, QUIT, MOUSEBUTTONDOWN, USEREVENT, USEREVENT
 from pygame.locals import *
 from map import Map
-
+from menu import Menu
 
 WHITE = (255, 255, 255)
-number_of_players = 2
 FPS = 60
 turn_over = USEREVENT+1
 game_over = USEREVENT + 2
-player_index = [i for i in range(number_of_players)]
 
 
-def main():
+def main(number_of_players):
+    player_index = [i for i in range(number_of_players)]
     win_message = ""
     M = Map(number_of_players)
     turn = 20
@@ -123,50 +122,36 @@ def main():
                             if M.map_list[k].rect.collidepoint(mouse_position) and M.map_list[k].visible and M.map_list[k].rotate_state != -1 and __dice_confirm == False:
                                 M.map_list[k].rotate(90)
                                 __rotate = True
-                            if k < 4:
-                                if __rotate == False and __move == True:
-                                    try:
-                                        # 尋找player的房間index
-                                        __index = M.player_list[player_turn[i]
-                                                                ].map_list_position
-                                        if M.move_button[k].collidepoint(mouse_position) and M.player_list[player_turn[i]].move_times > 0:
-                                            try:
-                                                if k == 0:
-                                                    __index -= 5
-                                                    next = 1
-                                                elif k == 1:
-                                                    __index += 5
-                                                    next = 0
-                                                elif k == 2:
-                                                    __index -= 1
-                                                    next = 3
-                                                elif k == 3:
-                                                    __index += 1
-                                                    next = 2
-                                                if M.map_list[__index].visible == False:
-                                                    M.map_list[__index].flip()
-                                                    # 當翻開房間後，把所有房間狀態記錄起來
-                                                    __tem_rotate_state = []
-                                                    for w in range(25):
-                                                        __tem_rotate_state.append(
-                                                            M.map_list[w].rotate_state)
-                                                    if M.map_list[__index].gates[next] != 1:
-                                                        M.player_list[player_turn[i]].reduce_move_times(
-                                                        )
-                                                __back_postition = M.player_list[player_turn[i]
-                                                                                 ].map_list_position
-                                                if M.map_list[__index].gates[next] == 1 and M.player_list[player_turn[i]].move(k):
-                                                    M.map_list[__index].in_utility(
-                                                        M.player_list[player_turn[i]])
-                                                    M.map_list[__back_postition].move_utility(
-                                                        M.player_list[player_turn[i]])
-                                                    M.player_list[player_turn[i]].reduce_move_times(
-                                                    )
+                        # 移動的button
+                        for k in range(4):
+                            if __rotate == False and __move == True:
+                                    # 尋找player的房間index
+                                __cur_index = M.player_list[player_turn[i]
+                                                            ].map_list_position
+                                if M.move_button[k] != 0 and M.move_button[k].collidepoint(mouse_position) and M.player_list[player_turn[i]].move_times > 0:
+                                    __new_index, next = M.player_move_criteria(
+                                        k, __cur_index)
+                                    # 代表是可能可以移動的
+                                    if __new_index != -1:
+                                        if M.map_list[__new_index].visible == False:
+                                            M.map_list[__new_index].flip()
+                                            # 當翻開房間後，把所有房間狀態記錄起來
+                                            __tem_rotate_state = []
+                                            for w in range(25):
+                                                __tem_rotate_state.append(
+                                                    M.map_list[w].rotate_state)
+                                            if M.map_list[__new_index].gates[next] != 1:
+                                                M.player_list[player_turn[i]].reduce_move_times(
+                                                )
 
-                                            except:
-                                                pass
-                                    except:
-                                        pass
+                                        if M.map_list[__new_index].gates[next] == 1 and M.player_list[player_turn[i]].move(k):
+                                            M.map_list[__new_index].in_utility(
+                                                M.player_list[player_turn[i]])
+                                            M.map_list[__cur_index].move_utility(
+                                                M.player_list[player_turn[i]])
+                                            M.player_list[player_turn[i]].reduce_move_times(
+                                            )
+
                 if M.player_list[player_turn[i]].rotate_times == 0 and M.player_list[player_turn[i]].move_times == 0:
                     M.player_list[player_turn[i]].rotate_times = -1
                     if not pygame.event.peek(turn_over):
@@ -278,4 +263,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    m = Menu()
+    main(m.number)

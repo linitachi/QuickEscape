@@ -17,19 +17,19 @@ class Player():
         # 上0 下1 左2 右3
         __index = self.map_list_position
         # 往上
-        if direction == 0 and __index > 4:
+        if direction == 0:
             self.map_list_position = __index - 5
             return True
         # 往下
-        elif direction == 1 and __index < 20:
+        elif direction == 1:
             self.map_list_position = __index + 5
             return True
         # 往左
-        elif direction == 2 and (__index % 5) != 0:
+        elif direction == 2:
             self.map_list_position = __index - 1
             return True
         # 往右
-        elif direction == 3 and (__index % 5) != 4:
+        elif direction == 3:
             self.map_list_position = __index + 1
             return True
         return False
