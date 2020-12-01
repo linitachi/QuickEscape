@@ -158,6 +158,22 @@ class Map:
             self.window_surface.blit(
                 self.player_list[index_of_player].image, (imgPos[0]+remainder+75*(index_of_player-3), imgPos[1]+150+quotient))
 
+    def player_move_criteria(self, direction, __index):
+        # return 下一個房間的index 以及它的開口方向
+        # 往上
+        if direction == 0 and __index > 4:
+            return __index - 5, 1
+        # 往下
+        elif direction == 1 and __index < 20:
+            return __index + 5, 0
+        # 往左
+        elif direction == 2 and (__index % 5) != 0:
+            return __index - 1, 3
+        # 往右
+        elif direction == 3 and (__index % 5) != 4:
+            return __index + 1, 2
+        return -1, -1
+
     def init_stay_button(self):
         __picture = "picture\\stay.png"
         __raw_image = pygame.image.load(__picture).convert_alpha()
