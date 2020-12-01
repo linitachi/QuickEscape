@@ -2,7 +2,7 @@ from room import Room
 import pygame
 import random
 
-# 尖刺的房間 如果回合結束還待在這，就死掉啦!
+# 交換房間:擁有四個路口的房間，當玩家進入後，與大廳以外的隨機一個房間交換，如果未翻開則翻開該房間，並執行交換後的房間進入效果
 
 
 class RoomtypeG(Room):
