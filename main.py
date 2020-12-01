@@ -148,12 +148,12 @@ def main(number_of_players=2):
                                                 )
 
                                         if M.map_list[__new_index].gates[next] == 1 and M.player_list[player_turn[i]].move(k):
+                                            M.player_list[player_turn[i]].reduce_move_times(
+                                            )
                                             M.map_list[__new_index].in_utility(
                                                 M.player_list[player_turn[i]])
                                             M.map_list[__cur_index].move_utility(
                                                 M.player_list[player_turn[i]])
-                                            M.player_list[player_turn[i]].reduce_move_times(
-                                            )
 
                 if M.player_list[player_turn[i]].rotate_times == 0 and M.player_list[player_turn[i]].move_times == 0:
                     M.player_list[player_turn[i]].rotate_times = -1
@@ -216,8 +216,7 @@ def main(number_of_players=2):
                                                                          ].map_list_position].rect.topleft[0]
                     imgPos[1] = 200+imgPos[1]-M.map_list[M.player_list[player_turn[i]
                                                                        ].map_list_position].rect.topleft[1]
-                    print(imgPos, M.map_list[M.player_list[player_turn[i]
-                                                           ].map_list_position].rect.topleft)
+
                     # 檢查是否有玩家獲勝
                     __player_win = list(
                         M.map_list[M.escape_index].save_player.values())
