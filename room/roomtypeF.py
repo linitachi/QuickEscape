@@ -2,7 +2,8 @@ from room import Room
 import pygame
 import random
 
-# 尖刺的房間 如果回合結束還待在這，就死掉啦!
+# 重力房間:擁有四個路口的房間，當玩家進入後，使玩家移動次數-1
+# 超重力房間: 擁有四個路口的房間，當玩家進入後，使玩家移動次數歸零
 
 
 class RoomtypeF(Room):

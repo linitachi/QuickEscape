@@ -11,6 +11,8 @@ from room.roomtypeC import RoomtypeC
 from room.roomtypeD import RoomtypeD
 from room.roomtypeE import RoomtypeE
 from room.roomtypeF import RoomtypeF
+from room.roomtypeG import RoomtypeG
+
 
 from room.escaperoom import EscapeRoom
 from dice import Dice
@@ -62,8 +64,8 @@ class Map:
             self.player_list.append(Player(
                 "picture\\user%s.png" % str(i), (350, 200), 50, 50, "player%s" % str(i+1)))
 
-        # roomtype_list = [RoomtypeA, RoomtypeB, RoomtypeC, RoomtypeD,RoomtypeE,RoomtypeF]
-        roomtype_list = [RoomtypeF]
+        # roomtype_list = [RoomtypeA, RoomtypeB, RoomtypeC, RoomtypeD,RoomtypeE,RoomtypeF,RoomtypeG]
+        roomtype_list = [RoomtypeG]
         self.generate_map(roomtype_list)
 
         self.init_stay_button()
@@ -89,7 +91,7 @@ class Map:
         self.escape_index = random.randint(0, 24)
         while self.escape_index == 7 or self.escape_index == 11 or self.escape_index == 13 or self.escape_index == 12 or self.escape_index == 17:
             self.escape_index = random.randint(0, 24)
-        # self.escape_index = 17
+        self.escape_index = 17
         self.map_list[self.escape_index] = EscapeRoom(
             POSITION[self.escape_index], 200, 200)
         self.map_list[self.escape_index].init_save_player(
@@ -242,3 +244,12 @@ class Map:
             __move_times += __move
             __rotate_times += __rotate
         return __move_times, __rotate_times
+
+    def change_room(self, roomA, roomB):
+        __tem = self.map_list[roomA]
+        if self.map_list[roomA].visible == False:
+            self.map_list[roomA].flip()
+        if roomA == self.escape_index:
+            self.escape_index = roomB
+        self.map_list[roomA] = self.map_list[roomB]
+        self.map_list[roomB] = __tem

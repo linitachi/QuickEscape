@@ -51,3 +51,6 @@ class EscapeRoom(Room):
 
     def reduce_save_player(self, id):
         self.save_player[id] -= 1
+
+    def move_utility(self, player):
+        self.save_player[player.id] = 2

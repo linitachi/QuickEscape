@@ -26,6 +26,7 @@ def main(number_of_players=2):
     __dice_confirm = True
     __dice = True
     __move = False
+    __tem_utility = None
     my_font = pygame.font.SysFont(None, 50)
 
     imgPos = pygame.Rect((350, 200), (0, 0))
@@ -150,10 +151,18 @@ def main(number_of_players=2):
                                         if M.map_list[__new_index].gates[next] == 1 and M.player_list[player_turn[i]].move(k):
                                             M.player_list[player_turn[i]].reduce_move_times(
                                             )
-                                            M.map_list[__new_index].in_utility(
+                                            __tem_utility = M.map_list[__new_index].in_utility(
                                                 M.player_list[player_turn[i]])
                                             M.map_list[__cur_index].move_utility(
                                                 M.player_list[player_turn[i]])
+                if __tem_utility == "Random_change":
+                    __tem_utility = None
+                    __index = M.map_list[__new_index].change_room(
+                    )
+                    M.change_room(
+                        __index, __new_index)
+                    __tem_utility = M.map_list[__new_index].in_utility(
+                        M.player_list[player_turn[i]])
 
                 if M.player_list[player_turn[i]].rotate_times == 0 and M.player_list[player_turn[i]].move_times == 0:
                     M.player_list[player_turn[i]].rotate_times = -1
