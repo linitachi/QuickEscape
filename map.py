@@ -66,7 +66,7 @@ class Map:
 
         roomtype_list = [RoomtypeA, RoomtypeB, RoomtypeC,
                          RoomtypeD, RoomtypeE, RoomtypeF, RoomtypeG]
-        # roomtype_list = [RoomtypeG]
+        # roomtype_list = [RoomtypeE]
         self.generate_map(roomtype_list)
 
         self.init_stay_button()
