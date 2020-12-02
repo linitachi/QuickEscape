@@ -48,13 +48,12 @@ POSITION = generate_position((350, 200))
 
 
 class Map:
-    def __init__(self, number_of_players):
+    def __init__(self, number_of_players, window_surface):
         pygame.init()
         WINDOW_WIDTH = 1000
         WINDOW_HEIGHT = 700
         BLACK = (0, 0, 0)
-        self.window_surface = pygame.display.set_mode(
-            (WINDOW_WIDTH, WINDOW_HEIGHT), pygame.RESIZABLE)
+        self.window_surface = window_surface
         pygame.display.set_caption('QuickEscape!!')
 
         self.window_surface.fill(BLACK)

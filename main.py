@@ -14,14 +14,14 @@ turn_over = USEREVENT+1
 game_over = USEREVENT + 2
 
 
-def main(number_of_players=2):
+def main(number_of_players=2, window_surface=None):
     if number_of_players < 4:
         turn = 12
     else:
         turn = 9
     player_index = [i for i in range(number_of_players)]
     win_message = ""
-    M = Map(number_of_players)
+    M = Map(number_of_players, window_surface)
     __rotate = False
     __dice_confirm = True
     __dice = True
@@ -229,10 +229,10 @@ def main(number_of_players=2):
                     # 檢查是否有玩家獲勝
                     for k in player_turn:
                         if M.map_list[M.escape_index].save_player[M.player_list[k].id] == 0:
-                            win_message += "%s" % M.player_list[k].id + "  "
+                            win_message += "%s" % M.player_list[k].id + " "
                             turn = 0
                     if turn == 0:
-                        win_message += "win"
+                        win_message += "WIN!!"
 
                 # TODO:zoom功能
                 # if event.type == MOUSEWHEEL:
@@ -262,21 +262,22 @@ def main(number_of_players=2):
                 M.window_surface.blit(turn_text, (0, 0))
                 pygame.display.flip()
         else:
-            pygame.init()
-            M.window_surface.fill((0, 0, 0))
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    pygame.quit()
-                    sys.exit()
-
-            if win_message == "win":
-                win_message = "NoBody Runaway !!"
-            turn_text = my_font.render(
-                win_message, True, (255, 255, 255))
-            M.window_surface.blit(turn_text, (425, 400))
-            pygame.display.flip()
+            return win_message
+            # M.window_surface.fill((0, 0, 0))
+            # for event in pygame.event.get():
+            #     if event.type == QUIT:
+            #         pygame.quit()
+            #         sys.exit()
+            # if win_message == "win":
+            #     win_message = "NoBody Runaway !!"
+            # turn_text = my_font.render(
+            #     win_message, True, (255, 255, 255))
+            # M.window_surface.blit(turn_text, (425, 400))
+            # pygame.display.flip()
 
 
 if __name__ == '__main__':
-    m = Menu()
-    main(m.number)
+    while True:
+        m = Menu()
+        win_message = main(m.number, m.window_surface)
+        m.end_menu(win_message)
